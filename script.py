@@ -2,18 +2,29 @@ import os
 import random
 from datetime import datetime, timedelta
 
-start_date = datetime.now() - timedelta(days=365)
+# Your GitHub join date
+start_date = datetime(2025, 3, 12)
+end_date = datetime.now()
 
-for i in range(365):
-    date = start_date + timedelta(days=i)
+current_date = start_date
 
-    commits = random.randint(3, 8)
+while current_date <= end_date:
+
+    # Create gaps (skip some days)
+    if random.random() < 0.25:  # 25% chance to skip day
+        current_date += timedelta(days=1)
+        continue
+
+    # Random commits per active day
+    commits = random.randint(2, 6)
 
     for j in range(commits):
         with open("file.txt", "a") as f:
-            f.write(f"{date} commit {j}\n")
+            f.write(f"{current_date} commit {j}\n")
 
         os.system("git add .")
         os.system(
-            f'git commit --date="{date.strftime("%Y-%m-%d %H:%M:%S")}" -m "backfill"'
+            f'git commit --date="{current_date.strftime("%Y-%m-%d %H:%M:%S")}" -m "activity"'
         )
+
+    current_date += timedelta(days=1)
