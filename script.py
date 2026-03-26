@@ -1,16 +1,20 @@
 import os
 import random
-from datetime import datetime, timedelta
+from datetime import datetime
 
-start_date = datetime.now() - timedelta(days=60)
+date = datetime.now()
 
-for i in range(60):
-    date = start_date + timedelta(days=i)
-    commits = random.randint(2, 6)
+# random commits for today
+commits = random.randint(3, 10)
 
-    for j in range(commits):
-        with open("file.txt", "a") as f:
-            f.write(f"{date} commit {j}\n")
+for j in range(commits):
+    with open("file.txt", "a") as f:
+        f.write(f"{date} commit {j}\n")
 
-        os.system("git add .")
-        os.system(f'git commit --date="{date.strftime("%Y-%m-%d %H:%M:%S")}" -m "commit"')
+    os.system("git add .")
+    os.system(
+        f'git commit --date="{date.strftime("%Y-%m-%d %H:%M:%S")}" -m "daily commit"'
+    )
+
+# push automatically
+os.system("git push origin main")
